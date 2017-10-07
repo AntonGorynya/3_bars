@@ -1,6 +1,10 @@
 # Ближайшие бары
 
-[FIXME. Здесь будет описание проекта]
+Данный скрипт предназначен для анализа информации по барам и выводу следующей информации по ним:
+
+-самый большой бар: ключ -b;
+-самый маленький бар: ключ -s;
+-самый близкий бар (текущие gps-координаты пользователь введет с клавиатуры: ключ -с).
 
 # Как запустить
 
@@ -11,7 +15,21 @@
 ```#!bash
 
 $ python bars.py # possibly requires call of python3 executive instead of just python
-# FIXME вывести пример ответа скрипта
+
+$ ./bars.py bars.json -s -b -c 1 1
+biggests bar are 
+-  Юнион Джек
+-  Спорт бар «Красная машина»
+biggest seats counts is  450
+
+smallest bar are 
+-  БАР. СОКИ
+-  Соки
+-  Фреш-бар
+-  Бар в Деловом центре Яуза
+smallest seats counts is  0
+
+Closset bar is Staropramen
 
 ```
 
