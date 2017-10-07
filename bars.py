@@ -17,9 +17,8 @@ def get_biggest_bar(json_data):
         biggest_name_candidate = (bar['properties']['Attributes']['Name'])
         biggest_seats_candidate = (bar['properties']['Attributes']
                                    ['SeatsCount'])
-        if biggest_seats == max(biggest_seats, biggest_seats_candidate):
-            if biggest_seats == biggest_seats_candidate:
-                biggest_name.append(biggest_name_candidate)
+        if biggest_seats == biggest_seats_candidate:
+             biggest_name.append(biggest_name_candidate)
         elif biggest_seats < max(biggest_seats, biggest_seats_candidate):
             biggest_seats = max(biggest_seats, biggest_seats_candidate)
             biggest_name = [biggest_name_candidate]
@@ -41,9 +40,8 @@ def get_smallest_bar(json_data):
         smallest_name_candidate = (bar['properties']['Attributes']['Name'])
         smallest_seats_candidate = (bar['properties']
                                     ['Attributes']['SeatsCount'])
-        if smallest_seats == min(smallest_seats, smallest_seats_candidate):
-            if smallest_seats == smallest_seats_candidate:
-                smallest_name.append(smallest_name_candidate)
+        if smallest_seats == smallest_seats_candidate:
+            smallest_name.append(smallest_name_candidate)
         elif smallest_seats > min(smallest_seats, smallest_seats_candidate):
             smallest_seats = min(smallest_seats, smallest_seats_candidate)
             smallest_name = [smallest_name_candidate]
