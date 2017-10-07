@@ -10,12 +10,12 @@ def load_data(filepath):
     return json_data
 
 
-def get_biggest_bar(data):
+def get_biggest_bar(json_data):
     biggest_name_candidate = ''
     biggest_seats_candidate = 0
     biggest_seats = 0
     biggest_name = ['']
-    for bar in data['features']:
+    for bar in json_data['features']:
         biggest_name_candidate = (bar['properties']['Attributes']['Name'])
         biggest_seats_candidate = (bar['properties']['Attributes']
                                    ['SeatsCount'])
@@ -34,15 +34,15 @@ def get_biggest_bar(data):
         print('biggest seats counts is ', biggest_seats, end='\n\n')
 
 
-def get_smallest_bar(data):
-    smallest_name_candidate = (data['features'][0]
+def get_smallest_bar(json_data):
+    smallest_name_candidate = (json_data['features'][0]
                                ['properties']['Attributes']['Name'])
-    smallest_seats_candidate = (data['features'][0]
+    smallest_seats_candidate = (json_data['features'][0]
                                 ['properties']['Attributes']['SeatsCount'])
-    smallest_seats = (data['features'][0]
+    smallest_seats = (json_data['features'][0]
                       ['properties']['Attributes']['SeatsCount'])
-    smallest_name = [data['features'][0]['properties']['Attributes']['Name']]
-    for bar in data['features']:
+    smallest_name = [json_data['features'][0]['properties']['Attributes']['Name']]
+    for bar in json_data['features']:
         smallest_name_candidate = (bar['properties']['Attributes']['Name'])
         smallest_seats_candidate = (bar['properties']
                                     ['Attributes']['SeatsCount'])
@@ -61,11 +61,11 @@ def get_smallest_bar(data):
         print('smallest seats counts is ', smallest_seats, end='\n\n')
 
 
-def get_closest_bar(data, longitude, latitude):
-    [bar_longitude, bar_latitude] = (data['features'][0]
+def get_closest_bar(json_data, longitude, latitude):
+    [bar_longitude, bar_latitude] = (json_data['features'][0]
                                      ['geometry']['coordinates'])
-    closset_bar_name = [data['features'][0]['properties']['Attributes']['Name']]
-    for bar in data['features']:
+    closset_bar_name = [json_data['features'][0]['properties']['Attributes']['Name']]
+    for bar in json_data['features']:
         closest_name_candidate = bar['properties']['Attributes']['Name']
         coordinate_candidate = bar['geometry']['coordinates']
         if ((coordinate_candidate[0]-longitude)**2+(coordinate_candidate[1]-latitude)**2) < ((bar_longitude-longitude)**2+(bar_latitude-latitude)**2):
@@ -94,12 +94,12 @@ def create_parser():
 if __name__ == '__main__':
     parser = create_parser()
     namespace = parser.parse_args()
-    data = load_data(namespace.path[0])
+    json_data = load_data(namespace.path[0])
     if namespace.path:
         if namespace.b:
-            get_biggest_bar(data)
+            get_biggest_bar(json_data)
         if namespace.s:
-            get_smallest_bar(data)
+            get_smallest_bar(json_data)
         if namespace.c:
-            get_closest_bar(data, float(namespace.c[0]), float(namespace.c[1]))
+            get_closest_bar(json_data, float(namespace.c[0]), float(namespace.c[1]))
         pass
