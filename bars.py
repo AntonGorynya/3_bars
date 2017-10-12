@@ -19,7 +19,7 @@ def get_biggest_bar(json_data):
     for bar in bars:
         bar_attributes = bar['properties']['Attributes']
         if bar_attributes['SeatsCount'] == seats_count:
-            biggest_bars.append({bar_attributes['Name']:seats_count})
+            biggest_bars.append({bar_attributes['Name']: seats_count})
     return biggest_bars
 
 
@@ -42,8 +42,7 @@ def get_closest_bar(json_data, longitude, latitude):
               key=lambda x: (x['geometry']['coordinates'][0]-longitude)**2 -
                             (x['geometry']['coordinates'][1]-latitude)**2)
     seats_count = bar['properties']['Attributes']['SeatsCount']
-    return {bar['properties']['Attributes']['Name']:seats_count}
-
+    return {bar['properties']['Attributes']['Name']: seats_count}
 
 
 def create_parser():
