@@ -4,49 +4,46 @@ import json
 import argparse
 
 
-def get_key(input_dict, input_value):
-    for dict_key, dict_value in input_dict.items():
-        if dict_value == input_value:
-            return dict_key
-
-
 def load_data(filepath):
-    with open(filepath, encoding='utf-8') as f:
-        json_data = json.load(f)
+    with open(filepath, encoding='utf-8') as input_file:
+        json_data = json.load(input_file)
     return json_data
 
 
 def get_biggest_bar(json_data):
-    print("самые большие бары:")
-    bar = max(json_data['features'],
+    bars = json_data['features']
+    biggest_bars = []
+    bar = max(bars,
               key=lambda x: x['properties']['Attributes']['SeatsCount'])
     seats_count = bar['properties']['Attributes']['SeatsCount']
-    for bar in json_data['features']:
+    for bar in bars:
         bar_attributes = bar['properties']['Attributes']
         if bar_attributes['SeatsCount'] == seats_count:
-            print("  -", bar['properties']['Attributes']['Name'],
-                  bar_attributes['SeatsCount'], "сидячих мест")
+            biggest_bars.append({bar_attributes['Name']:seats_count})
+    return biggest_bars
 
 
 def get_smallest_bar(json_data):
-    print("самые маленькие бары:")
-    bar = min(json_data['features'],
+    bars = json_data['features']
+    smallest_bars = []
+    bar = min(bars,
               key=lambda x: x['properties']['Attributes']['SeatsCount'])
     seats_count = bar['properties']['Attributes']['SeatsCount']
-    for bar in json_data['features']:
+    for bar in bars:
         bar_attributes = bar['properties']['Attributes']
         if bar_attributes['SeatsCount'] == seats_count:
-            print("  -", bar['properties']['Attributes']['Name'],
-                  bar_attributes['SeatsCount'], "сидячих мест")
+            smallest_bars.append({bar_attributes['Name']: seats_count})
+    return smallest_bars
 
 
 def get_closest_bar(json_data, longitude, latitude):
-    print("ближайший бар:")
-    bar = min(json_data['features'],
+    bars = json_data['features']
+    bar = min(bars,
               key=lambda x: (x['geometry']['coordinates'][0]-longitude)**2 -
                             (x['geometry']['coordinates'][1]-latitude)**2)
     seats_count = bar['properties']['Attributes']['SeatsCount']
-    print(bar['properties']['Attributes']['Name'], seats_count, "сидячих мест")
+    return {bar['properties']['Attributes']['Name']:seats_count}
+
 
 
 def create_parser():
@@ -65,9 +62,16 @@ if __name__ == '__main__':
     json_data = load_data(args.path)
     if args.path:
         if args.b:
-            get_biggest_bar(json_data)
+            print("\nCамые большие бары:")
+            for bar in get_biggest_bar(json_data):
+                print ("{} количесво сидячих мест: {}"
+                       .format(list(bar.keys())[0], list(bar.values())[0]))
         if args.s:
-            get_smallest_bar(json_data)
+            print("\nсамые маленькие бары:")
+            for bar in get_smallest_bar(json_data):
+                print ("{} количесво сидячих мест: {}"
+                       .format(list(bar.keys())[0], list(bar.values())[0]))
         if args.c:
-            get_closest_bar(json_data, float(args.c[0]),
-                            float(args.c[1]))
+            print("\nближайший бар:")
+            print ("{} количесво сидячих мест: {}"
+                   .format(list(bar.keys())[0], list(bar.values())[0]))
