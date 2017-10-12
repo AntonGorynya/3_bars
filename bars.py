@@ -55,22 +55,26 @@ def create_parser():
     return parser
 
 
+def print_bar(json_data, args):
+    if args.b:
+        print("\nCамые большие бары:")
+        for bar in get_biggest_bar(json_data):
+            print("{} количесво сидячих мест: {}"
+                  .format(list(bar.keys())[0], list(bar.values())[0]))
+    if args.s:
+        print("\nсамые маленькие бары:")
+        for bar in get_smallest_bar(json_data):
+            print("{} количесво сидячих мест: {}"
+                  .format(list(bar.keys())[0], list(bar.values())[0]))
+    if args.c:
+        print("\nближайший бар:")
+        print("{} количесво сидячих мест: {}"
+              .format(list(bar.keys())[0], list(bar.values())[0]))
+
+
 if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
     json_data = load_data(args.path)
     if args.path:
-        if args.b:
-            print("\nCамые большие бары:")
-            for bar in get_biggest_bar(json_data):
-                print ("{} количесво сидячих мест: {}"
-                       .format(list(bar.keys())[0], list(bar.values())[0]))
-        if args.s:
-            print("\nсамые маленькие бары:")
-            for bar in get_smallest_bar(json_data):
-                print ("{} количесво сидячих мест: {}"
-                       .format(list(bar.keys())[0], list(bar.values())[0]))
-        if args.c:
-            print("\nближайший бар:")
-            print ("{} количесво сидячих мест: {}"
-                   .format(list(bar.keys())[0], list(bar.values())[0]))
+        print_bar(json_data, args)
