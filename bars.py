@@ -39,7 +39,7 @@ def get_smallest_bar(json_data):
 def get_closest_bar(json_data, longitude, latitude):
     bars = json_data['features']
     bar = min(bars,
-              key=lambda x: (x['geometry']['coordinates'][0]-longitude)**2 -
+              key=lambda x: (x['geometry']['coordinates'][0]-longitude)**2 +
                             (x['geometry']['coordinates'][1]-latitude)**2)
     seats_count = bar['properties']['Attributes']['SeatsCount']
     return {bar['properties']['Attributes']['Name']: seats_count}
@@ -68,6 +68,7 @@ def print_bar(json_data, args):
                   .format(list(bar.keys())[0], list(bar.values())[0]))
     if args.c:
         print("\nближайший бар:")
+        bar = get_closest_bar(json_data, float(args.c[0]), float(args.c[1]))
         print("{} количесво сидячих мест: {}"
               .format(list(bar.keys())[0], list(bar.values())[0]))
 
