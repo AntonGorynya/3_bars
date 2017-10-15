@@ -19,7 +19,7 @@ def get_biggest_bar(json_data):
     for bar in bars:
         bar_attributes = bar['properties']['Attributes']
         if bar_attributes['SeatsCount'] == seats_count:
-            biggest_bars.append({bar_attributes['Name']: seats_count})
+            biggest_bars.append(bar_attributes)
     return biggest_bars
 
 
@@ -32,7 +32,7 @@ def get_smallest_bar(json_data):
     for bar in bars:
         bar_attributes = bar['properties']['Attributes']
         if bar_attributes['SeatsCount'] == seats_count:
-            smallest_bars.append({bar_attributes['Name']: seats_count})
+            smallest_bars.append(bar_attributes)
     return smallest_bars
 
 
@@ -41,8 +41,7 @@ def get_closest_bar(json_data, longitude, latitude):
     bar = min(bars,
               key=lambda x: (x['geometry']['coordinates'][0]-longitude)**2 +
                             (x['geometry']['coordinates'][1]-latitude)**2)
-    seats_count = bar['properties']['Attributes']['SeatsCount']
-    return {bar['properties']['Attributes']['Name']: seats_count}
+    return bar['properties']['Attributes']
 
 
 def create_parser():
@@ -60,17 +59,17 @@ def print_bar(json_data, args):
         print("\nCамые большие бары:")
         for bar in get_biggest_bar(json_data):
             print("{} количесво сидячих мест: {}"
-                  .format(list(bar.keys())[0], list(bar.values())[0]))
+                  .format(bar['Name'], bar['SeatsCount']))
     if args.s:
-        print("\nсамые маленькие бары:")
+        print("\nCамые маленькие бары:")
         for bar in get_smallest_bar(json_data):
             print("{} количесво сидячих мест: {}"
-                  .format(list(bar.keys())[0], list(bar.values())[0]))
+                  .format(bar['Name'], bar['SeatsCount']))
     if args.c:
         print("\nближайший бар:")
         bar = get_closest_bar(json_data, float(args.c[0]), float(args.c[1]))
         print("{} количесво сидячих мест: {}"
-              .format(list(bar.keys())[0], list(bar.values())[0]))
+              .format(bar['Name'], bar['SeatsCount']))
 
 
 if __name__ == '__main__':
