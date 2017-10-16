@@ -49,8 +49,8 @@ def create_parser():
     parser.add_argument("path", help="path to json file")
     parser.add_argument("-b", action="store_true", help="get biggest bar(s)")
     parser.add_argument("-s", action="store_true", help="get smalest bar(s)")
-    parser.add_argument("-c", nargs=2, help="get closset bar(s). "
-                                            "Plese input your coordinate")
+    parser.add_argument("-c", nargs=2, type=float,
+                        help="get closset bar. Plese input your coordinate")
     return parser
 
 
